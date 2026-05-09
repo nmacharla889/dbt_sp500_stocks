@@ -1,0 +1,31 @@
+name: 'sp500stocks'
+version: '1.0.0'
+
+profile: 'sp500stocks'
+
+target-path: "target"
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:        
+  - "target"
+  - "dbt_packages"
+
+seeds:
+  sp500stocks:
+    +schema: raw
+
+models:
+  sp500stocks:
+    # Config indicated by + and applies to all files under models/example/
+    staging:
+      +materialized: view
+      +schema: stg
+    marts:
+      +materialized: table
+      +schema: marts

@@ -1,0 +1,15 @@
+version: 2
+
+sources:
+  - name: sp500_dev
+    database: stocks
+    schema: "{{target.schema}}_raw"
+    tables:
+      - name: sp500_companies
+        description: "The table contains information about companies listed on the S&P 500 index. It includes data such as company names, stock symbols, sectors, industries, and various financial metrics like current price and market capitalization. This table can be used for financial analysis, market research, and comparing company performance within the index."
+
+      - name: sp500_index
+        description: "The table contains historical data for the S&P 500 index, with dates and the corresponding index values. It can be used for analyzing market trends over time, comparing performance across different periods, and conducting quantitative research related to stock market behavior."
+
+      - name: sp500_stocks
+        description: "The table contains historical stock data for companies in the S&P 500 index. It includes daily trading information such as opening, closing, high, and low prices, as well as trading volume. This data can be utilized for analyzing stock performance, backtesting trading strategies, and performing market trend analyses."
