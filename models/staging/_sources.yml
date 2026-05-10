@@ -1,7 +1,8 @@
 version: 2
 
 sources:
-  - name: sp500_dev
+  - name: sp500_raw
+    description: "This source contains raw data related to the S&P 500 index, including information about the companies listed on the index, historical index values, and stock data. The data is sourced from various financial databases and is intended for use in financial analysis, market research, and quantitative studies related to the stock market."
     database: stocks
     schema: "{{target.schema}}_raw"
     tables:
