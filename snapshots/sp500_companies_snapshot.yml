@@ -1,0 +1,3 @@
+snapshots:
+  - name: sp500_companies_snapshot
+    description: "Tracks historical changes to S&P 500 company attributes"
