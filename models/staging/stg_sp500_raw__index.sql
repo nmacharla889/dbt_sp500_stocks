@@ -8,7 +8,7 @@ renamed as (
 
     select
         date as index_value_date,
-        S&P500 as index_value
+        "S&P500" as index_value
 
     from source
 
