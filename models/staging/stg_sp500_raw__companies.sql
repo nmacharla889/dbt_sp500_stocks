@@ -18,10 +18,10 @@ renamed as (
         Ebitda as ebidta_earnings,
         Revenuegrowth as revenue_growth_rate,
         City as headquarters_city,
-        "State" as headquarters_state,
+        `State` as headquarters_state,
         Country as headquarters_country,
         Fulltimeemployees as fulltime_employees,
-        "Weight" as sp500_weight
+        `Weight` as sp500_weight
 
     from source
 
