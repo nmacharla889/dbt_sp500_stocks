@@ -1,0 +1,106 @@
+version: 2
+
+models:
+  - name: fct_weekly_returns
+    description: "Fact table for weekly returns of S&P 500 stocks and index"
+    columns:
+      - name: company_key
+        data_type: string
+        description: "The unique key for the company, derived from the company ticker symbol"
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('dim_companies')
+              field: company_key
+
+      - name: market_cap_bucket
+        data_type: string
+        description: "The market capitalization bucket to which the company belongs"
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['mega_cap', 'large_cap', 'big_cap', 'super_mega_cap']
+
+      - name: weekly_return_key
+        data_type: string
+        description: "The unique key for the weekly return record, derived from the company key and the stock week start date"
+        data_tests:
+          - not_null
+          - unique
+
+      - name: stock_week_start_date
+        data_type: timestamp
+        description: "The start date of the week for which the stock data is recorded"
+        data_tests:
+          - not_null
+
+      - name: week_lowest_price
+        data_type: double
+        description: "The lowest price of the stock for the given week"
+        data_tests:
+          - not_null
+
+      - name: week_highest_price
+        data_type: double
+        description: "The highest price of the stock for the given week"
+        data_tests:
+          - not_null
+
+      - name: avg_stock_price
+        data_type: double
+        description: "The average price of the stock for the given week"
+        data_tests:
+          - not_null
+
+      - name: total_volume_traded
+        data_type: double
+        description: "The total volume of the stock that was traded for the given week"
+        data_tests:
+          - not_null
+
+      - name: index_week_start_date
+        data_type: timestamp
+        description: "The start date of the week for which the index data is recorded"
+        data_tests:
+          - not_null
+
+      - name: avg_index_value
+        data_type: double
+        description: "The average value of the index for the given week"
+        data_tests:
+          - not_null
+
+      - name: min_index_value
+        data_type: double
+        description: "The minimum value of the index for the given week"
+        data_tests:
+          - not_null
+
+      - name: max_index_value
+        data_type: double
+        description: "The maximum value of the index for the given week"
+        data_tests:
+          - not_null
+
+      - name: week_opening_price
+        data_type: double
+        description: "The opening price of the stock for the given week"
+        data_tests:
+          - not_null
+
+      - name: week_closing_price
+        data_type: double
+        description: "The closing price of the stock for the given week"
+        data_tests:
+          - not_null
+
+      - name: weekly_return
+        data_type: double
+        description: "The weekly return of the stock for the given week"
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: -100
+                max_value: 1000

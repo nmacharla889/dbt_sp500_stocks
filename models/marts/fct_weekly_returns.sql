@@ -13,7 +13,6 @@ index_weekly as (
     select 
     date_trunc('week', index_value_date) as index_week_start_date,
     avg(index_value) as avg_index_value,
-    sum(index_value) as sum_index_value,
     min(index_value) as min_index_value,
     max(index_value) as max_index_value
     from {{ ref('stg_sp500_raw__index') }}
@@ -62,7 +61,6 @@ s.avg_stock_price,
 s.total_volume_traded,
 i.index_week_start_date,
 i.avg_index_value,
-i.sum_index_value,
 i.min_index_value,
 i.max_index_value,
 s.week_opening_price,
