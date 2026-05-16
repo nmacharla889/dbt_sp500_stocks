@@ -6,7 +6,7 @@ A production-style dbt project that transforms raw S&P 500 stock and company dat
 
 ## Lineage Graph
 
-![DAG](docs/dag_screenshot.png)
+![DAG](docs/sp500_dag_screenshot.png)
 
 **Sources → Staging → Marts → Exposure**
 
