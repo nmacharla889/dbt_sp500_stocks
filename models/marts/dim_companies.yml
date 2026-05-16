@@ -1,0 +1,90 @@
+version: 2
+
+models:
+  - name: dim_companies
+    description: "Dimensional model for company information, including details about the company and its market capitalization bucket"
+    columns:
+      - name: company_key
+        data_type: string
+        description: "The unique key for the company, derived from the company ticker symbol"
+        data_tests:
+          - not_null
+          - unique
+
+      - name: stock_exchange
+        data_type: string
+        description: "The stock exchange on which the company's shares are listed"
+        data_tests:
+          - not_null
+
+      - name: company_ticker
+        data_type: string
+        description: "The stock ticker symbol for the company"
+        data_tests:
+          - not_null
+          - unique
+          - relationships:
+              to: ref('stg_sp500_raw__companies')
+              field: company_ticker
+
+      - name: company_short_name
+        data_type: string
+        description: "The short name of the company"
+
+      - name: company_long_name
+        data_type: string
+        description: "The long name of the company"
+
+      - name: business_sector
+        data_type: string
+        description: "The sector to which the company belongs"
+
+      - name: business_industry
+        data_type: string
+        description: "The industry to which the company belongs"
+
+      - name: current_stock_price
+        data_type: double
+        description: "The current price of the company's stock"
+
+
+      - name: market_capitalization
+        data_type: bigint
+        description: "The market capitalization of the company"
+
+      - name: market_cap_bucket
+        data_type: string
+        description: "The market capitalization bucket to which the company belongs"
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['mega_cap', 'large_cap', 'big_cap', 'super_mega_cap']
+
+      - name: ebidta_earnings
+        data_type: bigint
+        description: "The company's earnings before interest, taxes, depreciation, and amortization (EBITDA)"
+
+      - name: revenue_growth_rate
+        data_type: double
+        description: "The rate at which the company's revenue is growing"
+
+      - name: headquarters_city
+        data_type: string
+        description: "The city where the company's headquarters are located"
+
+      - name: headquarters_state
+        data_type: string
+        description: "The state where the company's headquarters are located"
+
+      - name: headquarters_country
+        data_type: string
+        description: "The country where the company's headquarters are located"
+
+      - name: fulltime_employees
+        data_type: bigint
+        description: "The number of full-time employees at the company"
+
+      - name: sp500_weight
+        data_type: double
+        description: "The weight of the company in the S&P 500 index"

@@ -1,0 +1,85 @@
+version: 2
+
+models:
+  - name: stg_sp500_raw__companies
+    description: "Staging model for raw S&P 500 companies data"
+    columns:
+      - name: stock_exchange
+        data_type: string
+        description: "The stock exchange where the company's shares are listed"
+        data_tests:
+          - not_null
+
+      - name: company_ticker
+        data_type: string
+        description: "The stock ticker symbol for the company"
+        data_tests:
+          - not_null
+          - unique
+
+      - name: company_short_name
+        data_type: string
+        description: "The short name of the company"
+
+      - name: company_long_name
+        data_type: string
+        description: "The full legal name of the company"
+
+      - name: business_sector
+        data_type: string
+        description: "The sector to which the company belongs"
+
+      - name: business_industry
+        data_type: string
+        description: "The industry to which the company belongs"
+
+      - name: current_stock_price
+        data_type: double
+        description: "The current stock price of the company"
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+      - name: market_capitalization
+        data_type: bigint
+        description: "The market capitalization of the company"
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+      - name: ebidta_earnings
+        data_type: bigint
+        description: "The EBITDA earnings of the company"
+
+      - name: revenue_growth_rate
+        data_type: double
+        description: "The rate at which the company's revenue is growing"
+
+      - name: headquarters_city
+        data_type: string
+        description: "The city where the company's headquarters are located"
+
+      - name: headquarters_state
+        data_type: string
+        description: "The state where the company's headquarters are located"
+
+      - name: headquarters_country
+        data_type: string
+        description: "The country where the company's headquarters are located"
+
+      - name: fulltime_employees
+        data_type: bigint
+        description: "The number of full-time employees at the company"
+
+      - name: sp500_weight
+        data_type: double
+        description: "The weight of the company in the S&P 500 index"
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0

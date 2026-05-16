@@ -1,0 +1,80 @@
+version: 2
+
+models:
+  - name: stg_sp500_raw__stocks
+    description: "Staging model for raw S&P 500 stocks data"
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - market_date
+              - company_ticker      
+    columns:
+      - name: market_date
+        data_type: date
+        description: "The date for which the stock data is recorded"
+        data_tests:
+          - not_null
+
+      - name: company_ticker
+        data_type: string
+        description: "The stock ticker symbol for the company"
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('stg_sp500_raw__companies')
+              field: company_ticker
+
+      - name: adj_closing_price
+        data_type: double
+        description: "The adjusted closing price of the stock for the given date"
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+      - name: closing_price
+        data_type: double
+        description: "The closing price of the stock for the given date"
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+      - name: highest_price
+        data_type: double
+        description: "The highest price of the stock for the given date"
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+      - name: lowest_price
+        data_type: double
+        description: "The lowest price of the stock for the given date"
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+      - name: opening_price
+        data_type: double
+        description: "The opening price of the stock for the given date"
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+      - name: volume_traded
+        data_type: double
+        description: "The volume of the stock that was traded for the given date"
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0

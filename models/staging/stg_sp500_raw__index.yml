@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: stg_sp500_raw__index
+    description: "Staging model for raw S&P 500 index data"
+    columns:
+      - name: index_value_date
+        data_type: date
+        description: "The date for which the index value is recorded"
+        data_tests:
+          - not_null
+          - unique
+
+      - name: index_value
+        data_type: double
+        description: "The value of the index for the given date"
+        data_tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
