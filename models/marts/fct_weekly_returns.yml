@@ -104,3 +104,20 @@ models:
               arguments:
                 min_value: -100
                 max_value: 1000
+      
+      - name: rolling_4w_avg_price
+        data_type: double
+        description: "The rolling 4-week average price of the stock"
+        data_tests:
+         - dbt_utils.accepted_range:
+            arguments:
+              min_value: 0
+        
+      - name: rolling_12w_volatility
+        data_type: double
+        description: "The rolling 12-week volatility of the stock"
+        data_tests:
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                max_value: 200

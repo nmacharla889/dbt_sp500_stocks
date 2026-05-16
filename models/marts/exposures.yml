@@ -1,0 +1,18 @@
+version: 2
+
+exposures:
+  - name: sp500_performance_dashboard
+    type: dashboard
+    maturity: medium
+    url: https://lookerstudio.google.com/sp500_dashboard
+    description: >
+      Weekly S&P 500 stock performance dashboard showing returns,, 4 week rolling avg, 
+      volatility, and market cap distribution by sector.
+
+    depends_on:
+      - ref('fct_weekly_returns')
+      - ref('dim_companies')
+
+    owner:
+      name: Nikhil Macharla
+      email: nmacharla@outlook.in

@@ -48,8 +48,14 @@ stocks as (
         sum(volume_traded) as total_volume_traded
     from stocks_daily
     group by week_start, company_ticker
+),
+stocks_with_metrics as (
+    select
+        *,
+        {{ rolling_avg('week_closing_price', 'company_ticker', 'stock_week_start_date', 4) }} as rolling_4w_avg_price,
+        {{ calc_volatility('week_closing_price', 'company_ticker', 'stock_week_start_date', 12) }} as rolling_12w_volatility
+    from stocks
 )
-
 select 
 c.company_key,
 c.market_cap_bucket,
@@ -65,7 +71,9 @@ i.min_index_value,
 i.max_index_value,
 s.week_opening_price,
 s.week_closing_price,
-(s.week_closing_price - s.week_opening_price) / s.week_opening_price * 100 as weekly_return
+(s.week_closing_price - s.week_opening_price) / s.week_opening_price * 100 as weekly_return,
+s.rolling_4w_avg_price,
+s.rolling_12w_volatility
 from
-companies c join stocks s on c.company_ticker = s.company_ticker
+companies c join stocks_with_metrics s on c.company_ticker = s.company_ticker
 join index_weekly i on s.stock_week_start_date = i.index_week_start_date
