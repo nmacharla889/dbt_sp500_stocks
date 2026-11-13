@@ -72,7 +72,7 @@ Aggregates daily stock prices into weekly returns using a merge strategy. Uses w
 Incremental watermark is `stock_week_start_date` — only new weeks are processed on each run.
 
 ### SCD Type 2 Snapshot — `sp500_companies_snapshot`
-Tracks changes to company attributes (sector, industry, market cap) using dbt's check strategy. Any change to a tracked column creates a new snapshot row with `dbt_valid_from` and `dbt_valid_to` timestamps.
+Tracks changes to company name, sector, industry and location (city, state, country) using dbt’s check strategy.
 
 ### Custom Jinja Macros
 
@@ -161,17 +161,6 @@ dbt run --select fct_weekly_returns
 # Full refresh (reprocesses all historical data)
 dbt run --select fct_weekly_returns --full-refresh
 ```
-
----
-
-## Interview Talking Points
-
-- **Incremental strategy**: merge on `weekly_return_key` (surrogate key from week + ticker). Watermark on `stock_week_start_date` to process only new weeks.
-- **Snapshot strategy**: check strategy tracks company attribute changes — different from timestamp strategy used in Project 1 (Olist).
-- **Macro reusability**: `rolling_avg` and `calc_volatility` are parameterised — not hardcoded to this model. Can be reused across any model with the right column inputs.
-- **Volatility calculation**: log returns are used instead of percentage returns because they are additive over time — standard in quantitative finance.
-- **Singular test design**: `assert_no_missing_index_weeks` uses a left join to detect referential gaps that a generic `relationships` test cannot catch post-aggregation.
-- **Production path**: local dbt Core → GitHub → in production this pipeline would run on dbt Cloud or Airflow triggering dbt jobs, with Databricks as the compute layer.
 
 ---
 
