@@ -53,7 +53,8 @@ sp500stocks/
 │   └── sp500_companies_snapshot.sql
 ├── seeds/
 │   ├── sp500_companies.csv
-│   └── sp500_stocks.csv
+│   ├── sp500_stocks.csv
+│   └── sp500_index.csv
 └── tests/
     └── assert_no_missing_index_weeks.sql
 ```
