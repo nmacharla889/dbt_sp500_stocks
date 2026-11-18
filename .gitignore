@@ -1,6 +1,10 @@
-target/
-dbt_packages/
-logs/
 dbt_internal_packages/
 seeds/sp500_stocks.csv
 profiles.yml
+dbt-env/
+.venv/
+target/
+dbt_packages/
+logs/
+.env
+.vscode/
