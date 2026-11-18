@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: mart_sector_risk_return
+    description: >
+      Annualised return, volatility and return per unit of volatility per
+      sector, for the full period and three 5-year sub-periods.
+      Grain: one row per sector per period.
+    columns:
+      - name: sub_period
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['2010-2014', '2015-2019', '2020-2024', 'full']
+      - name: annualised_return
+        data_tests:
+          - not_null
+      - name: annualised_volatility
+        data_tests:
+          - not_null

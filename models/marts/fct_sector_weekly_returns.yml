@@ -1,0 +1,45 @@
+version: 2
+
+models:
+  - name: fct_sector_weekly_returns
+    description: >
+      Equal-weighted average weekly return per sector, built from weekly
+      close-to-close returns of the stocks that have price data.
+      Grain: one row per sector per week.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - business_sector
+              - week_start_date
+    columns:
+      - name: business_sector
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - Basic Materials
+                  - Communication Services
+                  - Consumer Cyclical
+                  - Consumer Defensive
+                  - Energy
+                  - Financial Services
+                  - Healthcare
+                  - Industrials
+                  - Real Estate
+                  - Technology
+                  - Utilities
+      - name: week_start_date
+        data_tests:
+          - not_null
+      - name: sector_weekly_return
+        description: Simple average of the stocks' weekly returns in the sector.
+        data_tests:
+          - not_null
+      - name: ticker_count
+        description: Number of stocks with a return in that sector and week.
+        data_tests:
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 1
