@@ -8,7 +8,7 @@ Analysis question: which sectors gave the best return for the volatility taken b
 
 ## Lineage Graph
 
-![DAG](docs/sp500_dag_screenshot.png)
+![DAG](docs/lineage.png)
 
 **Sources → Staging → Marts → Exposure**
 
