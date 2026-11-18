@@ -96,6 +96,7 @@ Both sector models are built from `stg_sp500_raw__stocks` and `dim_companies`, n
 
 ### SCD Type 2 Snapshot — `sp500_companies_snapshot`
 Tracks changes to company name, sector, industry and location (city, state, country) using dbt’s check strategy.
+Uses dbt_valid_to_current = 9999-12-31 and hard_deletes = new_record. Currently one version per company (502 rows), because the source data has not changed since the first run.
 
 ### Custom Jinja Macros
 
@@ -152,7 +153,7 @@ Planned outputs: a pandas notebook that reproduces these figures, a Power BI das
 | Raw (seeds and `sp500_stocks`) | `sp500_dev_raw` |
 | Staging | `sp500_dev_stg` |
 | Marts | `sp500_dev_marts` |
-| Snapshots | **TODO:** confirm the schema the snapshot writes to |
+| Snapshots | `sp500_dev` |
 
 Schema separation between dev and prod is handled by the `generate_schema_name` macro.
 
