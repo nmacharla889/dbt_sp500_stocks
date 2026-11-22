@@ -50,6 +50,8 @@ Sector risk and return, equal-weighted, 2010–2024, for the 172 stocks with pri
 | Basic Materials | 7 | 12.1% | 25.7% | 0.47 | 0.02 to 1.08 |
 | Energy | 5 | 12.4% | 27.7% | 0.45 | −0.05 to 1.06 |
 
+"Stocks with prices" counts every stock in the sector. The chart shows the weekly average, which is lower for Technology (21), Communication Services (11), Healthcare (20) and Industrials (25) because some of their stocks listed after 2010.
+
 **Findings**
 - **The full-period ranking is noise.** A 15-year ratio is uncertain by about ±0.3 (block bootstrap). The top six sit between 0.91 and 0.98, with overlapping 95% ranges of roughly 0.4 to 1.7.
 - **Only one change over time beats the noise.** Consumer Defensive fell from 1.82 (2010–14) to 0.23 (2020–24). The 95% range of that change is −2.82 to −0.36, so it excludes zero.
@@ -100,6 +102,7 @@ dbt_sp500_stocks/
 ├── analyses/ticker_coverage.sql   # Per-ticker price coverage
 ├── dashboard/sector_risk_return.pbix
 ├── data/                          # CSV snapshots the notebook reads
+├── docs/                          # memo.md, memo.pdf, lineage.png
 ├── macros/
 │   ├── drop_ci_schemas.sql        # Drops CI schemas after a run (guarded)
 │   ├── generate_schema_name.sql   # Schema per environment and layer
@@ -174,7 +177,7 @@ Tracks changes to company name, sector, industry and location with dbt's check s
 **Other checks**
 - The notebook recomputes the sector mart in pandas and stops if any value differs by more than 1e-9.
 - Hand check: Energy, week of 2020-03-09, recomputed from raw prices for all 5 stocks (−2.43%), matched the sector model.
-- Before the Nov 2026 changes, `dbt build` passed with PASS=81, WARN=0, ERROR=0. **TODO:** update after the next full build.
+- Before the Nov 2026 changes, `dbt build` passed with PASS=88 WARN=0 ERROR=0 SKIP=0 NO-OP=2 TOTAL=90.
 
 ---
 
