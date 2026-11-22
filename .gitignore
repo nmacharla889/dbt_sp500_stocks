@@ -1,6 +1,6 @@
 dbt_internal_packages/
 seeds/sp500_stocks.csv
-profiles.yml
+/profiles.yml
 dbt-env/
 .venv/
 target/

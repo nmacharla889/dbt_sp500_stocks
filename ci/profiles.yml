@@ -1,0 +1,16 @@
+# dbt profile used only by GitHub Actions (.github/workflows/ci.yml).
+# It holds no secrets: every value comes from environment variables that the workflow
+# fills from GitHub repository secrets. Your local profiles.yml (repo root) stays gitignored.
+sp500stocks:
+  target: ci
+  outputs:
+    ci:
+      type: databricks
+      catalog: stocks
+      # Models, seeds and the snapshot build into sp500_ci, sp500_ci_raw, sp500_ci_stg and
+      # sp500_ci_marts, never into the dev schemas. They are dropped at the end of every run.
+      schema: "{{ env_var('DBT_CI_SCHEMA', 'sp500_ci') }}"
+      host: "{{ env_var('DATABRICKS_HOST') }}"
+      http_path: "{{ env_var('DATABRICKS_HTTP_PATH') }}"
+      token: "{{ env_var('DATABRICKS_TOKEN') }}"
+      threads: 4

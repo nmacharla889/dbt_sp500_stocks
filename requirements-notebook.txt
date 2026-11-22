@@ -1,0 +1,8 @@
+pandas>=2.2,<3.1
+numpy>=1.26
+matplotlib>=3.8
+scipy>=1.11
+nbconvert>=7
+ipykernel>=6
+# Only needed when the notebook reads live tables (SOURCE = "databricks"):
+# databricks-sql-connector>=3
