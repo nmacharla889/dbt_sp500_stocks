@@ -24,9 +24,8 @@ models:
           - not_null
           - unique
           - relationships:
-              arguments:
-                to: ref('stg_sp500_raw__companies')
-                field: company_ticker
+              to: ref('stg_sp500_raw__companies')
+              field: company_ticker
 
       - name: company_short_name
         data_type: string

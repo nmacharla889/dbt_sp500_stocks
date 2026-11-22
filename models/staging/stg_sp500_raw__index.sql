@@ -1,6 +1,6 @@
 with source as (
 
-    select * from {{ ref('sp500_index') }}
+    select * from {{ source('sp500_raw', 'sp500_index') }}
 
 ),
 

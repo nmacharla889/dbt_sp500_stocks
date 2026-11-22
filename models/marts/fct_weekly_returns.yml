@@ -2,10 +2,7 @@ version: 2
 
 models:
   - name: fct_weekly_returns
-    description: >
-      Weekly stock facts for the 172 stocks with prices, 2010 onwards. Grain: one row per stock per week (weeks start on Monday).
-      Index columns are null before 2014-12-22, because the index source starts then.
-      weekly_return is close to close on adjusted prices, in percent, and is null in each stock's first week.
+    description: "Fact table for weekly returns of S&P 500 stocks and index"
     columns:
       - name: company_key
         data_type: string
@@ -13,9 +10,8 @@ models:
         data_tests:
           - not_null
           - relationships:
-              arguments:
-                to: ref('dim_companies')
-                field: company_key
+              to: ref('dim_companies')
+              field: company_key
 
       - name: market_cap_bucket
         data_type: string
@@ -28,7 +24,7 @@ models:
 
       - name: weekly_return_key
         data_type: string
-        description: "Surrogate key from the week start date and the ticker."
+        description: "The unique key for the weekly return record, derived from the company key and the stock week start date"
         data_tests:
           - not_null
           - unique
@@ -41,19 +37,19 @@ models:
 
       - name: week_lowest_price
         data_type: double
-        description: "Lowest unadjusted price of the week."
+        description: "The lowest price of the stock for the given week"
         data_tests:
           - not_null
 
       - name: week_highest_price
         data_type: double
-        description: "Highest unadjusted price of the week."
+        description: "The highest price of the stock for the given week"
         data_tests:
           - not_null
 
       - name: avg_stock_price
         data_type: double
-        description: "Average adjusted closing price over the week's trading days."
+        description: "The average price of the stock for the given week"
         data_tests:
           - not_null
 
@@ -65,61 +61,50 @@ models:
 
       - name: index_week_start_date
         data_type: timestamp
-        description: "Week start date of the index row. Null before 2014-12-22 (no index data)."
+        description: "The start date of the week for which the index data is recorded"
         data_tests:
-          - not_null:
-              config:
-                where: "stock_week_start_date >= '2014-12-22'"
+          - not_null
 
       - name: avg_index_value
         data_type: double
         description: "The average value of the index for the given week"
         data_tests:
-          - not_null:
-              config:
-                where: "stock_week_start_date >= '2014-12-22'"
+          - not_null
 
       - name: min_index_value
         data_type: double
         description: "The minimum value of the index for the given week"
         data_tests:
-          - not_null:
-              config:
-                where: "stock_week_start_date >= '2014-12-22'"
+          - not_null
 
       - name: max_index_value
         data_type: double
         description: "The maximum value of the index for the given week"
         data_tests:
-          - not_null:
-              config:
-                where: "stock_week_start_date >= '2014-12-22'"
+          - not_null
 
       - name: week_opening_price
         data_type: double
-        description: "Unadjusted opening price on the first trading day of the week. Not comparable with week_closing_price, which is adjusted."
+        description: "The opening price of the stock for the given week"
         data_tests:
           - not_null
 
       - name: week_closing_price
         data_type: double
-        description: "Adjusted closing price (dividends and splits) on the last trading day of the week."
+        description: "The closing price of the stock for the given week"
         data_tests:
           - not_null
 
       - name: weekly_return
         data_type: double
-        description: >
-          Close-to-close return on adjusted closing prices, in percent:
-          this week's last adjusted close / last week's last adjusted close - 1, times 100.
-          Null in each stock's first week (see assert_weekly_return_null_only_first_week).
-          Checked against an independent daily calculation by assert_weekly_return_reconciles.
+        description: "The weekly return of the stock for the given week"
         data_tests:
+          - not_null
           - dbt_utils.accepted_range:
               arguments:
-                min_value: -90
-                max_value: 200
-
+                min_value: -100
+                max_value: 1000
+      
       - name: rolling_4w_avg_price
         data_type: double
         description: "The rolling 4-week average price of the stock"

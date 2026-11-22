@@ -1,32 +1,18 @@
 version: 2
 
 exposures:
-  - name: sector_risk_return_dashboard
-    label: Sector risk and return (Power BI)
+  - name: sp500_performance_dashboard
     type: dashboard
-    maturity: low
-    description: >
-      Two-page Power BI Desktop report (dashboard/sector_risk_return.pbix) showing return,
-      volatility and return per unit of volatility by sector and sub-period.
-      It imports mart_sector_risk_return only. It is a companion view to the notebook,
-      not a published dashboard, so there is no URL.
-    depends_on:
-      - ref('mart_sector_risk_return')
-    owner:
-      name: Nikhil Macharla
-      email: nmacharla@outlook.in
-
-  - name: sector_risk_return_notebook
-    label: Sector risk and return notebook
-    type: notebook
     maturity: medium
+    url: https://lookerstudio.google.com/sp500_dashboard
     description: >
-      notebooks/sector_risk_return.ipynb. Recomputes the mart in pandas, reconciles against it,
-      measures uncertainty with a block bootstrap and draws the chart. Reads CSV snapshots in data/
-      or the live tables.
+      Weekly S&P 500 stock performance dashboard showing returns, 4-week rolling avg, 
+      volatility, and market cap distribution by sector.
+
     depends_on:
-      - ref('fct_sector_weekly_returns')
-      - ref('mart_sector_risk_return')
+      - ref('fct_weekly_returns')
+      - ref('dim_companies')
+
     owner:
       name: Nikhil Macharla
       email: nmacharla@outlook.in

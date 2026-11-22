@@ -22,9 +22,8 @@ models:
         data_tests:
           - not_null
           - relationships:
-              arguments:
-                to: ref('stg_sp500_raw__companies')
-                field: company_ticker
+              to: ref('stg_sp500_raw__companies')
+              field: company_ticker
 
       - name: adj_closing_price
         data_type: double

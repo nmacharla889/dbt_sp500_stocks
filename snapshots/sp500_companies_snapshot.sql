@@ -8,6 +8,6 @@
         hard_deletes='new_record'
     ) }}
 
-    select * from {{ ref('sp500_companies') }}
+    select * from {{ source('sp500_raw', 'sp500_companies') }}
 
 {% endsnapshot %}

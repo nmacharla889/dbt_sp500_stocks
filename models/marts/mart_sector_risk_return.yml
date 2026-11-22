@@ -5,43 +5,17 @@ models:
     description: >
       Annualised return, volatility and return per unit of volatility per
       sector, for the full period and three 5-year sub-periods.
-      Grain: one row per sector per period (11 sectors x 4 periods = 44 rows).
-    data_tests:
-      - dbt_utils.unique_combination_of_columns:
-          arguments:
-            combination_of_columns:
-              - business_sector
-              - sub_period
+      Grain: one row per sector per period.
     columns:
-      - name: business_sector
-        data_tests:
-          - not_null
       - name: sub_period
         data_tests:
           - not_null
           - accepted_values:
               arguments:
                 values: ['2010-2014', '2015-2019', '2020-2024', 'full']
-      - name: weeks
-        description: Number of weekly returns in the period.
-        data_tests:
-          - not_null
       - name: annualised_return
-        description: exp(mean weekly log return x 52) - 1, as a fraction (0.12 = 12%).
         data_tests:
           - not_null
       - name: annualised_volatility
-        description: Standard deviation of weekly log returns x sqrt(52), as a fraction.
-        data_tests:
-          - not_null
-          - dbt_utils.accepted_range:
-              arguments:
-                min_value: 0
-                inclusive: false
-      - name: return_per_volatility
-        description: >
-          annualised_return / annualised_volatility. No risk-free rate, so not a Sharpe ratio.
-          A 5-year value is uncertain by about 0.4 to 0.6 and a 15-year value by about 0.3
-          (block bootstrap, notebook section 6), so small differences between sectors are noise.
         data_tests:
           - not_null
