@@ -2,15 +2,18 @@ version: 2
 
 sources:
   - name: sp500_raw
-    description: "This source contains raw data related to the S&P 500 index, including information about the companies listed on the index, historical index values, and stock data. The data is sourced from various financial databases and is intended for use in financial analysis, market research, and quantitative studies related to the stock market."
+    description: >
+      Raw daily stock prices from the Kaggle "S&P 500 Stocks (daily updated)" dataset, loaded into
+      Databricks outside dbt because the file (about 94 MB) is too large for a seed.
+      The two smaller files (sp500_companies, sp500_index) are dbt seeds and are read with ref(), not source().
     database: stocks
-    schema: "{{target.schema}}_raw"
+    # Defaults to <target schema>_raw, so dev reads sp500_dev_raw.
+    # CI builds into its own schema but has no copy of this 94 MB table, so the CI workflow
+    # passes --vars '{raw_schema: sp500_dev_raw}' to read the dev raw table (read only).
+    schema: "{{ var('raw_schema', target.schema ~ '_raw') }}"
     tables:
-      - name: sp500_companies
-        description: "The table contains information about companies listed on the S&P 500 index. It includes data such as company names, stock symbols, sectors, industries, and various financial metrics like current price and market capitalization. This table can be used for financial analysis, market research, and comparing company performance within the index."
-
-      - name: sp500_index
-        description: "The table contains historical data for the S&P 500 index, with dates and the corresponding index values. It can be used for analyzing market trends over time, comparing performance across different periods, and conducting quantitative research related to stock market behavior."
-
       - name: sp500_stocks
-        description: "The table contains historical stock data for companies in the S&P 500 index. It includes daily trading information such as opening, closing, high, and low prices, as well as trading volume. This data can be utilized for analyzing stock performance, backtesting trading strategies, and performing market trend analyses."
+        description: >
+          One row per ticker per trading day, 2010-01-04 to 2024-12-20, 502 tickers x 3,768 days = 1,891,536 rows.
+          330 tickers have no prices on any day (all price columns null): the source file is missing them,
+          most likely from failed downloads when the dataset was last updated. See README, Data Investigation.

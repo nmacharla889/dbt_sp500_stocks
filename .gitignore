@@ -8,3 +8,5 @@ dbt_packages/
 logs/
 .env
 .vscode/
+.user.yml
+.ipynb_checkpoints/
