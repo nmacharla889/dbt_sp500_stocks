@@ -1,5 +1,7 @@
 -- weekly_return needs last week's close, so it is null in each stock's first week.
--- Any other null means a gap or a broken calculation.
+-- Any other null means a broken calculation, for example an incremental run that did not
+-- re-read enough earlier weeks, so a new week has no previous close. (A missing week does not
+-- show up here: lag() would use the week before it.)
 with weeks as (
     select
         company_key,
