@@ -76,6 +76,7 @@ jobs:
         run: dbt debug --profiles-dir ci
 
       - name: dbt build (seeds, models, snapshot, tests)
+        id: build
         run: dbt build --profiles-dir ci --vars "$DBT_VARS"
 
       # Second run exercises the incremental path of fct_weekly_returns.
@@ -86,5 +87,5 @@ jobs:
           dbt test --profiles-dir ci --vars "$DBT_VARS" --select fct_weekly_returns
 
       - name: Drop CI schemas
-        if: always()
+        if: always() && steps.build.outcome != 'skipped'
         run: dbt run-operation drop_ci_schemas --profiles-dir ci
