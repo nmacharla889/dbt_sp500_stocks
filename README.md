@@ -1,5 +1,7 @@
 # dbt S&P 500 Financial Pipeline
 
+> **One-page summary for non-technical readers:** [docs/memo.md](docs/memo.md) ([PDF](docs/memo.pdf))
+
 A dbt project that transforms raw S&P 500 stock and company data into analytics-ready models on Databricks. It shows dimensional modelling, an incremental model, an SCD Type 2 snapshot, custom Jinja macros, data quality testing and GitHub Actions CI, and it ends in a sector-level risk and return analysis for 2010–2024.
 
 **Analysis question:** which sectors gave the best return for the volatility taken between 2010 and 2024, and did that hold in each 5-year sub-period?
@@ -55,15 +57,13 @@ Sector risk and return, equal-weighted, 2010–2024, for the 172 stocks with pri
 - **Big-looking moves elsewhere are within noise.** Healthcare (−0.99) and Communication Services (−0.94) both have ranges that include zero. Technology's jump from 11th to 1st is a +0.37 change. Ranks make small differences look large.
 - **Thin sectors.** Energy, Basic Materials and Utilities rest on 5, 7 and 9 stocks, so one company can move them.
 
-**Outputs:** the notebook (done), a two-page Power BI companion file in `dashboard/` (built from `mart_sector_risk_return`), and a one-page memo (to do).
+**Outputs:** the notebook (done), a two-page Power BI companion file in `dashboard/` (built from `mart_sector_risk_return`), and a one-page memo ([`docs/memo.md`](docs/memo.md), [PDF](docs/memo.pdf)).
 
 ---
 
 ## Lineage
 
 ![DAG](docs/lineage.png)
-
-> The screenshot predates the Nov 2026 changes. The seeds are now read with `ref()`, so they appear as parents of the staging models. Regenerate with `dbt docs generate` and `dbt docs serve`.
 
 **Seeds and source → Staging → Marts → Exposures**
 
