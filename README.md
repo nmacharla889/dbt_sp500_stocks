@@ -177,7 +177,7 @@ Tracks changes to company name, sector, industry and location with dbt's check s
 **Other checks**
 - The notebook recomputes the sector mart in pandas and stops if any value differs by more than 1e-9.
 - Hand check: Energy, week of 2020-03-09, recomputed from raw prices for all 5 stocks (−2.43%), matched the sector model.
-- Before the Nov 2026 changes, `dbt build` passed with PASS=88 WARN=0 ERROR=0 SKIP=0 NO-OP=2 TOTAL=90.
+- After the Nov 2026 changes, `dbt build` passed with PASS=88 WARN=0 ERROR=0 SKIP=0 NO-OP=2 TOTAL=90 (78 tests, 7 models, 2 seeds, 1 snapshot; the 2 no-ops are the exposures).
 
 ---
 
